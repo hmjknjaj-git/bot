@@ -1,4 +1,4 @@
-Name: bot
+name: bot
 on:
   schedule:
     - cron: "*/5 * * * *"
@@ -18,7 +18,7 @@ jobs:
       - run: pip install requests
       - run: python bot.py
         env:
-          MODE: ${{ vars.MODE }}
+          MODE: live
           DELTA_API_KEY: ${{ secrets.DELTA_API_KEY }}
           DELTA_API_SECRET: ${{ secrets.DELTA_API_SECRET }}
       - run: |
