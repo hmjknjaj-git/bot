@@ -19,7 +19,7 @@ LOTS = 1               # HARD CAP. 1 lot = 0.01 ETH
 LOT_ETH = 0.01
 KILL_USD = 3.0         # Stop opening trades if cumulative losses exceed this USD amount
 
-MODE = os.environ.get("MODE") or "paper"
+MODE = os.environ.get("MODE", "paper")
 KEY = os.environ.get("DELTA_API_KEY", "")
 SECRET = os.environ.get("DELTA_API_SECRET", "")
 STATE, LOG = "state.json", "trades.csv"
@@ -175,20 +175,16 @@ def main():
     print(now, MODE, "price", price, "pos", s["pos"], "total_usd", round(s["total_usd"], 4))
 
     # ==========================================
-    # GIT AUTO-SYNC (Prevents push rejections)
+    # GIT AUTO-SYNC
     # ==========================================
     print("Syncing data files back to repository...")
     os.system("git config --global user.name 'bot'")
     os.system("git config --global user.email 'bot@users.noreply.github.com'")
-    
-    # Pull latest remote changes with rebase first to avoid rejection errors
     os.system("git pull origin main --rebase")
-    
-    # Commit and push state and trade logs
     os.system("git add state.json trades.csv")
     os.system('git commit -m "update bot state"')
     os.system("git push origin main")
-    print("Bot execution and sync finished successfully.")
+    print("Execution and sync finished successfully.")
 
 
 if __name__ == "__main__":
